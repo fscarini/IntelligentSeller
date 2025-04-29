@@ -1,10 +1,16 @@
-import SmartSalesCard from "./components/cards/SmartSalesCard";
-import IntroSection from "./components/sections/IntroSection";
+import SmartSalesCard from "./components/cards/SmartSalesCard"
+import IntroSection from "./components/sections/IntroSection"
+import Navbar from "./components/sections/navbar/Navbar"
 
 const App = () => {
     return (
-            <div className="container mt-5">
+            <div className="container-fluid">
                 <div className="row">
+                    <div className="col">
+                    <Navbar></Navbar>
+                    </div>
+                </div>
+                <div className="row mt-3">
                     <div className="col">
                         <IntroSection/>
                     </div>
