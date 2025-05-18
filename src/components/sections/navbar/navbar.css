@@ -1,0 +1,11 @@
+.navbar{
+    background: #354EAD;
+}
+
+.li-style > .nav-link{
+    color: white;
+}
+
+.li-style > .nav-link:hover{
+    color: white;
+}

@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require ('express')
 const {GoogleGenAI} = require ('@google/genai')
 const app = express()
@@ -17,7 +18,7 @@ app.use(express.json()) // Função middleware
 
 app.post('/upgrade-product', async (request, response) =>{
     const ai = new GoogleGenAI({
-        apiKey: ""
+        apiKey: "process.env.GEMINI_API_KEY"
     })
     const prompt = request.body.prompt
     const res = await ai.models.generateContent({

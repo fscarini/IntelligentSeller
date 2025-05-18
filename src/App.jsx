@@ -1,14 +1,14 @@
 import SmartSalesCard from "./components/cards/SmartSalesCard"
 import IntroSection from "./components/sections/IntroSection"
 import Navbar from "./components/sections/navbar/Navbar"
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 const App = () => {
     return (
             <div className="container-fluid">
                 <div className="row">
-                    <div className="col">
                     <Navbar></Navbar>
-                    </div>
                 </div>
                 <div className="row mt-3">
                     <div className="col">
