@@ -1,24 +1,18 @@
 require('dotenv').config()
 const express = require ('express')
+const cors = require('cors');
 const {GoogleGenAI} = require ('@google/genai')
 const app = express()
-app.use(express.json()) // Função middleware 
+
+app.use(cors()) // Isso permite requisições de todas as origens
+app.use(express.json()) // Para processar o corpo das requisições como JSON (middleware)
 
 // API = Coleção de ENDPOINTS
 // ENDPOINT = método HTTP, padrão de acesso e funcionalidade
 
-// Método GET = Obtém um conteúdo
-// Método POST = Cria um conteúdo
-// Método PUT = Atualiza um conteúdo
-// Méotodo DELETE = Apaga um conteúdo  
-
-// Padrão de acesso = hostnamename.com/(padrão de acesso)
-
-// Funcionalidade = É a função que que será executada de acordo com o metódo e o padrão de acesso
-
 app.post('/upgrade-product', async (request, response) =>{
     const ai = new GoogleGenAI({
-        apiKey: "process.env.GEMINI_API_KEY"
+        apiKey: process.env.GEMINI_API_KEY
     })
     const prompt = request.body.prompt
     const res = await ai.models.generateContent({

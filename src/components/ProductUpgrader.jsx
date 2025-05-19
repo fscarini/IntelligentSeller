@@ -62,7 +62,7 @@ const ProductUpgrader = () => {
 
             {error && <p style={{ color: 'red' }}>Erro: {error}</p>}
             {response && (
-                <div className="mt-2 align-self-center">
+                <div className="mt-4 align-self-center">
                     <h2>Gemini Response:</h2>
                     <p>{response}</p>
                 </div>
