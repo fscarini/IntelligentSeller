@@ -153,7 +153,7 @@ const PromptModal = () => {
                             {error && <p className="text-danger mt-2">Erro: {error}</p>}
                             {response && (
                                 <div className="mt-4">
-                                    <h5>ItelligentSeller suggestion:</h5>
+                                    <h5>IntelligentSeller suggestion:</h5>
                                     <div className="alert alert-info">{response}</div>
                                 </div>
                             )}
