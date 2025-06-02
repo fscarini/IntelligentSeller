@@ -4,7 +4,7 @@ import Navbar from "./components/sections/navbar/Navbar"
 import PricingCard from "./components/cards/PricingCard";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import PromptModal from "./components/PromptModal";
+import PromptModal from "./components/checkout-assistant/PromptModal";
 
 const App = () => {
     return (
@@ -27,10 +27,10 @@ const App = () => {
                     text="Leverage the power of artificial intelligence to automate your sales process and increase efficiency."
                 />
             </div>
-            <h2 className="mt-5 d-flex justify-content-center pricing">Pricing</h2>
+            <h2 className="mt-5 d-flex justify-content-center pricing" id="pricing">Pricing</h2>
             <div className="row d-flex justify-content-evenly mb-4">
                 <PricingCard
-                    title="Check-out assitant with AI"
+                    title="Check-out assistant with AI"
                     vantage1="✔ AI-powered checkout assistant"
                     vantage2="✔ Intelligently modeled product categorization"
                     vantage3="✔ Profit-based price competition"

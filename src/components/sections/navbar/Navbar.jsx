@@ -32,17 +32,12 @@ const Navbar = () => {
         <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
           <ul className="navbar-nav mr-auto mb-2 mb-lg-0">
             <li className="li-style nav-item">
-              <a className="nav-link li-a-style" href="#">
+              <a className="nav-link li-a-style" href="#pricing">
                 Pricing
               </a>
             </li>
             <li className="li-style nav-item">
-              <a className="nav-link li-a-style" href="#">
-                Services
-              </a>
-            </li>
-            <li className="li-style nav-item">
-              <a className="nav-link li-a-style" href="#">
+              <a className="nav-link li-a-style" href="https://github.com/fscarini/IntelligentSeller" target="_blank">
                 About us
               </a>
             </li>

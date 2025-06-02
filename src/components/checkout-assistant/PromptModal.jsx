@@ -1,21 +1,27 @@
 import React, { useState } from 'react'
 
-const categorias = {
-    Hamburguers: ['Cheeseburger Tradicional', 'Chicken Burger Apimentado', 'Texas Burguer'],
-    Bebidas: ['Refrigerante Lata', 'Suco Natural', 'Cerveja Artesanal'],
+const categories = {
+    Hamburguers: ['Cheeseburger', 'Spicy Chickenburguer', 'Burguer with Salad', 'Classic Texas Burguer'],
+    Juices: ['Strawberry Juice', 'Orange Juice', 'Mango Juice'],
+    Sodas: ['Coca-cola', 'Mtn Dew', 'Dr. Pepper'],
+    Tops: ['T-shirt', 'Sweater', 'Blouse', 'Tank Top', 'Hoodie'],
+    Bottoms: ['Jeans', 'Shorts', 'Skirt', 'Trousers', 'Leggings'],
+    Outerwear: ['Jacket', 'Coat', 'Blazer', 'Windbreaker', 'Cardigan'],
+    Accessories: ['Hat', 'Scarf', 'Belt', 'Gloves', 'Sunglasses'],
+    Footwear: ['Sneakers', 'Boots', 'Sandals', 'Loafers', 'Heels']
 
 };
 
 const PromptModal = () => {
-    const [categoriaSelecionada, setCategoriaSelecionada] = useState('')
-    const [produtoSelecionado, setProdutoSelecionado] = useState('')
+    const [selectedCategory, setSelectedCategory] = useState('')
+    const [selectedProduct, setSelectedProduct] = useState('')
     const [response, setResponse] = useState('')
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null)
 
     const handleSubmit = async () => {
-        if (!categoriaSelecionada || !produtoSelecionado) {
-            setError('Selecione uma categoria e um produto.')
+        if (!selectedCategory || !selectedProduct) {
+            setError('Select a category and a product.')
             return;
         }
 
@@ -23,34 +29,46 @@ const PromptModal = () => {
         setError(null)
         setResponse('')
 
-        const prompt = `Crie apenas 1 frase curta, persuasiva e direta, com no máximo 200 caracteres, para aumentar o ticket médio da venda do produto: "${produtoSelecionado}" da categoria "${categoriaSelecionada}".
-        A sugestão deve envolver um produto de alta margem (em caso de alimentos como adicionais, molhos, bebida ou sobremesa), e usar linguagem jovem, casual e moderna. Adicione emojis para tornar a frase mais atrativa. 
-        Evite qualquer explicação adicional, listas, marcações como asteriscos ou destaques. Retorne somente a frase pronta com um call to action no final com o preço da nova oferta, no formato ideal para exibição em tela de vendas.`
+        const prompt = `Generate exactly ONE short, persuasive, and direct sentence to increase the average order value for the item "${selectedProduct}" in the category "${selectedCategory}".
+        Include a high-margin product suggestion (such as add-ons, sauces, beverages, or desserts) with a price or additional cost naturally integrated in the sentence.
+        Use casual, modern, youth-friendly language, and add relevant emojis to make it more attractive.
+        Do NOT include any introductions, explanations, or extra text — return only the final sentence ready to display in a sales interface.
+        Maximum length: 200 characters.`
 
 
         try {
-            const apiEndpoint = 'http://localhost:3000/upgrade-product';
+            const apiEndpoint = 'http://localhost:3000/upgrade-product'
 
             const res = await fetch(apiEndpoint, {
                 method: 'POST',
                 headers: { 'Content-type': 'application/json' },
                 body: JSON.stringify({ prompt }),
-            });
+            })
+
+            const text = await res.text();
 
             if (!res.ok) {
-                const errorData = await res.json()
-                throw new Error(errorData.error || 'Erro ao se comunicar com o servidor.')
+                if ((res.status === 503 || res.status === 500) && text.includes('model is overloaded')) {
+                    throw new Error('IntelligentSeller is currently overloaded. Please try again in a few moments.');
+                }
+                throw new Error(`Server error: ${res.status} - ${text}`);
             }
 
-            const data = await res.json()
+            let data;
+            try {
+                data = JSON.parse(text);
+            } catch (e) {
+                throw new Error(`Invalid JSON response: ${text}`);
+            }
+
             setResponse(data.Resposta)
         } catch (error) {
-            console.error('Erro ao enviar o prompt: ', error)
+            console.error('Error sending prompt:', error)
             setError(error.message)
         } finally {
             setLoading(false)
         }
-    };
+    }
 
     return (
         <>
@@ -74,7 +92,7 @@ const PromptModal = () => {
                     <div className="modal-content">
                         <div className="modal-header">
                             <h5 className="modal-title" id="geminiPromptModalLabel">
-                                Sugestão de Venda com Gemini
+                                Sales force with IntelligentSeller
                             </h5>
                             <button
                                 type="button"
@@ -85,18 +103,18 @@ const PromptModal = () => {
                         </div>
                         <div className="modal-body">
                             <div className="mb-3">
-                                <label className="form-label">Categoria</label>
+                                <label className="form-label">Category</label>
                                 <select
                                     className="form-select"
-                                    value={categoriaSelecionada}
+                                    value={selectedCategory}
                                     onChange={(e) => {
-                                        setCategoriaSelecionada(e.target.value);
-                                        setProdutoSelecionado('');
-                                        setResponse('');
+                                        setSelectedCategory(e.target.value)
+                                        setSelectedProduct('')
+                                        setResponse('')
                                     }}
                                 >
-                                    <option value="">Selecione uma categoria</option>
-                                    {Object.keys(categorias).map((cat) => (
+                                    <option value="">Select a category</option>
+                                    {Object.keys(categories).map((cat) => (
                                         <option key={cat} value={cat}>
                                             {cat}
                                         </option>
@@ -104,16 +122,16 @@ const PromptModal = () => {
                                 </select>
                             </div>
 
-                            {categoriaSelecionada && (
+                            {selectedCategory && (
                                 <div className="mb-3">
-                                    <label className="form-label">Produto</label>
+                                    <label className="form-label">Product</label>
                                     <select
                                         className="form-select"
-                                        value={produtoSelecionado}
-                                        onChange={(e) => setProdutoSelecionado(e.target.value)}
+                                        value={selectedProduct}
+                                        onChange={(e) => setSelectedProduct(e.target.value)}
                                     >
-                                        <option value="">Selecione um produto</option>
-                                        {categorias[categoriaSelecionada].map((produto) => (
+                                        <option value="">Select a product</option>
+                                        {categories[selectedCategory].map((produto) => (
                                             <option key={produto} value={produto}>
                                                 {produto}
                                             </option>
@@ -124,18 +142,18 @@ const PromptModal = () => {
 
                             <div className="mt-3 text-end">
                                 <button
-                                    className="btn btn-success"
+                                    className="btn btn-primary"
                                     onClick={handleSubmit}
                                     disabled={loading}
                                 >
-                                    {loading ? 'Enviando...' : 'Gerar Sugestão'}
+                                    {loading ? 'Forming a better ofert...' : 'Improve yout ofert'}
                                 </button>
                             </div>
 
                             {error && <p className="text-danger mt-2">Erro: {error}</p>}
                             {response && (
                                 <div className="mt-4">
-                                    <h5>Sugestão do ItelligentSeller:</h5>
+                                    <h5>ItelligentSeller suggestion:</h5>
                                     <div className="alert alert-info">{response}</div>
                                 </div>
                             )}
@@ -144,7 +162,7 @@ const PromptModal = () => {
                 </div>
             </div>
         </>
-    );
-};
+    )
+}
 
-export default PromptModal;
+export default PromptModal
