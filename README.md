@@ -1,4 +1,24 @@
-# React + Vite
+# IntelligentSeller
+
+============================================================================================
+
+O projeto tem como objetivo classificar produtos por nicho de mercado e identificar as estratégias mais eficazes para definição de preços.
+
+-OBJETIVOS
+
+. Realizar a categorização automatizada de produtos com base em características e padrões de consumo.
+
+. Mapear nichos de mercado relevantes a partir de dados estruturados e não estruturados.
+
+
+PARTICIPANTES:
+FERNANDO SILVA CARINI - 82320402
+GUILHERME ALVES QUILLER DE ALENCAR - 82326887
+GUSTAVO MENEZES SANTOS - 823224885
+LUCAS ADRIEL BELENTANI CANUTO - 82329961
+RAUL SANTOS - 82324462
+
+============================================================================================
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
